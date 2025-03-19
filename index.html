@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lewis Miller - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+    <div id="mouse-trail"></div>
+
+    <header>
+        <div class="header-content">
+            <h1 id="typewriter" class="tech-text">lewieville-br</h1>
+            <nav class="tech-nav">
+                <a href="#home" class="nav-link" data-section="home">Home</a>
+                <a href="#experience" class="nav-link" data-section="experience">Experience</a>
+                <a href="#education" class="nav-link" data-section="education">Education</a>
+                <a href="#skills" class="nav-link" data-section="skills">Skills</a>
+                <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+                <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2 class="parallax glitch" data-text="Welcome">Portfolio</h2>
+            <p class="parallax subtitle neon-text">Lewis Miller | Full Stack Developer</p>
+            <div class="contact-links parallax">
+                <p>lewis.miller@svu.edu | 
+                    <a href="https://www.linkedin.com/in/lewis-miller-60980a314" class="link pulse">LinkedIn</a>
+                </p>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll Down</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" >
+        <h2>Professional Experience</h2>
+        <div class="card flip-card">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <h3>Seed to Table - IT Specialist</h3>
+                    <p>Naples, FL | Jan 2023 - Jun 2024</p>
+                </div>
+                <div class="flip-back">
+                    <ul>
+                        <li>Documented IT processes and procedures, allowing for faster onboarding of new employees.</li>
+                        <li>Installed and configured new hardware, software, and networks, resulting in improved system performance and reliability.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card flip-card">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <h3>Food and Thought - Customer Service Representative</h3>
+                    <p>Naples, FL | Jan 2021 - Jan 2022</p>
+                </div>
+                <div class="flip-back">
+                    <ul>
+                        <li>Developed and maintained customer service policies and procedures to ensure adherence to company standards.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card flip-card">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <h3>LEWON Styles - Founder & Business Owner</h3>
+                    <p>Naples, FL</p>
+                </div>
+                <div class="flip-back">
+                    <ul>
+                        <li>Managed e-commerce operations, overseeing marketing, sales strategies, and customer engagement.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card flip-card">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <h3>CTR Trades - CEO / Manager</h3>
+                    <p>Remote</p>
+                </div>
+                <div class="flip-back">
+                    <ul>
+                        <li>Designed the website and managed the SEO optimization. Built a community and was able to drive consistent traffic.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2>Education</h2>
+        <div class="card reveal-card">
+            <h3>Southern Virginia University</h3>
+            <p class="reveal">Bachelor's in Computer Science (In Progress) | Naples, FL</p>
+            <p class="reveal">Relevant Coursework: Data Structures and Algorithms, Operating Systems, Software Engineering, Discrete Mathematics.</p>
+        </div>
+        <div class="card reveal-card">
+            <h3>Florida South-Western College</h3>
+            <p class="reveal">Associate's Degree | Naples, FL | Jan 2022 - May 2024</p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skill-container">
+            <div class="skill">
+                <span>Python</span>
+                <div class="skill-bar"><div class="progress" data-width="90%"></div></div>
+            </div>
+            <div class="skill">
+                <span>JavaScript</span>
+                <div class="skill-bar"><div class="progress" data-width="85%"></div></div>
+            </div>
+            <div class="skill">
+                <span>SQL + NoSQL</span>
+                <div class="skill-bar"><div class="progress" data-width="70%"></div></div>
+            </div>
+            <div class="skill">
+                <span>HTML + CSS</span>
+                <div class="skill-bar"><div class="progress" data-width="95%"></div></div>
+            </div>
+            <div class="skill">
+                <span>React.js</span>
+                <div class="skill-bar"><div class="progress" data-width="85%"></div></div>
+            </div>
+            <p><strong>Software & Tools:</strong> Linux, Windows Server, AWS, etc.</p>
+            <p><strong>Technical Expertise:</strong> IT support, system administration, software development, customer service</p>
+            <p><strong>Languages:</strong> English, Portuguese (Native)</p>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Projects & Entrepreneurial Experience</h2>
+        <div class="card tilt-card">
+            <h3>LEWON Styles - Founder & Owner</h3>
+            <ul>
+                <li>Launched and managed an e-commerce business, overseeing operations, marketing, and customer engagement.</li>
+                <li>Utilized data analysis to optimize sales strategies and improve business performance.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="contact-container">
+            <h2 class="contact-title glitch" data-text="Contact Me">Contact Me</h2>
+            <p class="contact-subtitle neon-text">Send a message into the digital void!</p>
+            
+            <div class="contact-grid">
+                <!-- Form Side -->
+                <div class="contact-form-wrapper">
+                    <form id="contact-form" class="cyber-form">
+                        <div class="form-group">
+                            <input type="text" id="name" required placeholder=" ">
+                            <label for="name" class="cyber-label">Your Name</label>
+                            <div class="form-line"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" required placeholder=" ">
+                            <label for="email" class="cyber-label">Your Email</label>
+                            <div class="form-line"></div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" rows="5" required placeholder=" "></textarea>
+                            <label for="message" class="cyber-label">Your Message</label>
+                            <div class="form-line"></div>
+                        </div>
+                        <button type="submit" class="cyber-button">Transmit Signal</button>
+                    </form>
+                    <p id="form-message" class="form-message"></p>
+                </div>
+                
+                <!-- Info Side with Interactive Elements -->
+                <div class="contact-info">
+                    <div class="info-card hover-glow">
+                        <span class="icon pulse">✉️</span>
+                        <p>Email: <a href="mailto:lewis.miller@svu.edu" class="link glitch-link" data-text="lewis.miller@svu.edu">lewis.miller@svu.edu</a></p>
+                    </div>
+                    <div class="info-card hover-glow">
+                        <span class="icon pulse">🔗</span>
+                        <p>LinkedIn: <a href="https://www.linkedin.com/in/lewis-miller-60980a314" class="link glitch-link" data-text="LinkedIn">LinkedIn</a></p>
+                    </div>
+                    <div class="info-card hover-glow">
+                        <span class="icon pulse">🔗</span>
+                        <p>CTR Trades: <a href="https://www.ctrtrades.com" class="link glitch-link" data-text="CTR Trades">CTR Trades</a></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
