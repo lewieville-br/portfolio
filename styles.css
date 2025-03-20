@@ -62,7 +62,10 @@ header {
     border-bottom: 1px solid rgba(var(--section-color-rgb), 0.3); /* Dynamic border color */
     transition: transform 0.3s ease, background 0.3s ease;
 }
-
+header img {
+    height: 80px;
+    border-radius: 25px;
+}
 header.hidden {
     transform: translateY(-100%);
 }
@@ -435,6 +438,15 @@ ul li {
     box-shadow: 0 0 10px var(--section-color);
 }
 
+.tilt-card a{
+    color: var(--section-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor:none;
+}
+
+
 /* Contact Section */
 .contact-section {
     padding: 100px 50px;
@@ -477,6 +489,80 @@ ul li {
 /* Cyber Form */
 .contact-form-wrapper {
     position: relative;
+}
+
+/* Styling for the interactive features */
+
+/* Cyber Button */
+.cyber-button {
+    background: var(--section-color);
+    color: #000;
+    border: none;
+    padding: 8px 15px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(var(--section-color-rgb), 0.5);
+}
+
+.cyber-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+}
+
+.cyber-button:hover {
+    background: #000;
+    color: var(--section-color);
+    box-shadow: 0 0 20px rgba(var(--section-color-rgb), 0.8);
+}
+
+.cyber-button:hover::before {
+    left: 100%;
+}
+
+/* Floating Action Buttons */
+.terminal-toggle,
+.matrix-toggle,
+.audio-toggle {
+    opacity: 0.7;
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+
+.terminal-toggle:hover,
+.matrix-toggle:hover,
+.audio-toggle:hover {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Terminal Styling */
+.terminal {
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.terminal:hover {
+    box-shadow: 0 0 30px rgba(var(--section-color-rgb), 0.7);
+}
+
+.terminal-response {
+    color: #ccc;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
 .cyber-form {
@@ -647,7 +733,169 @@ ul li {
     animation: glitch 1s linear infinite;
 }
 
+#about {
+    padding: 100px 50px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* For fade-in */
+}
 
+.about-card {
+    background: rgba(51, 51, 51, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    margin: 20px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 0 15px var(--section-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px var(--section-color);
+}
+
+.intro-text {
+    color: var(--section-color);
+    font-weight: bold;
+    text-transform: uppercase;    margin-top: 60px;
+    font-size: 1.2em;
+    line-height: 1.8;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.about-list {
+    list-style: none;
+    padding: 0;
+}
+
+.about-item {
+    position: relative;
+    margin: 15px 0;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.about-item:hover {
+    transform: translateX(10px);
+    cursor: none;
+
+}
+
+.highlight {
+    color: var(--section-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    background: rgba(var(--section-color-rgb), 0.1);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+    cursor: none;
+
+}
+
+.about-item:hover .highlight {
+    cursor: none;
+    background: rgba(var(--section-color-rgb), 0.3);
+}
+
+.detail {
+    color: var(--section-color);
+    display: block;
+    font-size: 1em;
+    color: #ddd;
+    margin-top: 5px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.detail.hidden {
+    opacity: 0;
+    max-height: 0;
+}
+
+.detail.visible {
+    opacity: 1;
+    color: var(--section-color);
+    max-height: 50px; /* Adjust based on content */
+}
+
+/* Glitch Effect for Heading */
+.glitch {
+    position: relative;
+    color: var(--section-color);
+    animation: glitch 2s linear infinite alternate;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    color: #fff;
+    animation: glitch-top 1s linear infinite alternate;
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+.glitch::after {
+    color: #000;
+    animation: glitch-bottom 1.5s linear infinite alternate;
+    clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes glitch-top {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 1px); }
+    40% { transform: translate(3px, -1px); }
+    60% { transform: translate(-2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes glitch-bottom {
+    0% { transform: translate(0); }
+    20% { transform: translate(2px, -1px); }
+    40% { transform: translate(-2px, 1px); }
+    60% { transform: translate(3px, -2px); }
+    80% { transform: translate(-3px, 2px); }
+    100% { transform: translate(0); }
+}
+
+@media (max-width: 768px) {
+    .about-card {
+        padding: 20px;
+        max-width: 100%;
+    }
+    .intro-text, .detail {
+        font-size: 1em;
+    }
+    .about-item:hover {
+        transform: none; /* Disable hover shift on mobile */
+    }
+}
 /* Animations (Add to existing animations) */
 @keyframes rotate {
     0% { transform: rotate(0deg); }
