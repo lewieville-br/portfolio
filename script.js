@@ -25,6 +25,9 @@ const observer = new IntersectionObserver(entries => {
             if (entry.target.id === 'education') {
                 revealText(entry.target);
             }
+            if (entry.target.id === 'about') {
+                entry.target.querySelector('.about-card').style.animation = 'fadeInUp 1s forwards';
+            }
             // Change particle, cursor, and section color based on section
             switch (entry.target.id) {
                 case 'home':
@@ -66,22 +69,21 @@ const observer = new IntersectionObserver(entries => {
             }
         }
     });
-}, { threshold: 0.5 });
+}, { threshold: 0.5 }); // Trigger when 50% of section is in view
 
 sections.forEach(section => {
     observer.observe(section);
 });
 
-// Hide header on scroll down, show on scroll up with fade effect
+// Hide header on scroll down, show on scroll up
 window.addEventListener('scroll', () => {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     if (scrollTop > lastScrollTop) {
-        header.classList.add('hidden');
+        header.classList.add('hidden'); // Hide when scrolling down
     } else {
-        header.classList.remove('hidden');
-        header.style.background = `rgba(26, 26, 26, ${Math.min(0.9, scrollTop / 200)})`; // Fade in opacity
+        header.classList.remove('hidden'); // Show when scrolling up
     }
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative scroll
 });
 
 // Typewriter effect for header
@@ -99,7 +101,7 @@ function typeWriter() {
     }
 }
 
-// Particle Background with Physics
+// Particle Background
 const canvas = document.getElementById('particle-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -107,52 +109,19 @@ canvas.height = window.innerHeight;
 
 const particlesArray = [];
 const numberOfParticles = 100;
-const gravity = 0.05; // Gravity force
-const bounce = 0.8;   // Elasticity
-const friction = 0.99; // Slowdown on bounce
 
 class Particle {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 5 + 1;
-        this.speedX = Math.random() * 2 - 1;
-        this.speedY = Math.random() * 2 - 1;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
     }
     update() {
-        // Apply gravity
-        this.speedY += gravity;
-        
-        // Update position
         this.x += this.speedX;
         this.y += this.speedY;
-        
-        // Bounce off walls
-        if (this.x + this.size > canvas.width) {
-            this.x = canvas.width - this.size;
-            this.speedX = -this.speedX * bounce;
-            this.speedY *= friction;
-        } else if (this.x - this.size < 0) {
-            this.x = this.size;
-            this.speedX = -this.speedX * bounce;
-            this.speedY *= friction;
-        }
-        
-        if (this.y + this.size > canvas.height) {
-            this.y = canvas.height - this.size;
-            this.speedY = -this.speedY * bounce;
-            this.speedX *= friction;
-        } else if (this.y - this.size < 0) {
-            this.y = this.size;
-            this.speedY = -this.speedY * bounce;
-            this.speedX *= friction;
-        }
-        
-        // Slow down over time
-        this.speedX *= 0.998;
-        this.speedY *= 0.998;
-        
-        if (this.size > 0.2) this.size -= 0.02;
+        if (this.size > 0.2) this.size -= 0.05;
     }
     draw() {
         ctx.fillStyle = currentParticleColor;
@@ -168,45 +137,19 @@ function initParticles() {
     }
 }
 
-let lastFrameTime = 0;
-const fps = 60;
-const frameInterval = 1000 / fps;
-
-function animateParticles(timestamp) {
-    if (timestamp - lastFrameTime >= frameInterval) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].update();
-            particlesArray[i].draw();
-            if (particlesArray[i].size <= 0.2) {
-                particlesArray.splice(i, 1);
-                i--;
-                particlesArray.push(new Particle());
-            }
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+        if (particlesArray[i].size <= 0.2) {
+            particlesArray.splice(i, 1);
+            i--;
+            particlesArray.push(new Particle());
         }
-        lastFrameTime = timestamp;
     }
     requestAnimationFrame(animateParticles);
 }
-
-// Mouse interaction - push particles away
-canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    
-    particlesArray.forEach(particle => {
-        const dx = particle.x - mouseX;
-        const dy = particle.y - mouseY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 50) {
-            const force = (50 - distance) / 50;
-            particle.speedX += (dx / distance) * force * 2;
-            particle.speedY += (dy / distance) * force * 2;
-        }
-    });
-});
 
 // Mouse Trail (Custom Cursor)
 document.addEventListener('mousemove', (e) => {
@@ -259,7 +202,45 @@ tiltCard.addEventListener('mousemove', (e) => {
 tiltCard.addEventListener('mouseleave', () => {
     tiltCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
 });
+// About Me Interactivity
+function initAboutInteractivity() {
+    const aboutItems = document.querySelectorAll('.about-item');
 
+    aboutItems.forEach(item => {
+        const detail = item.querySelector('.detail');
+
+        // Hover Effect (Desktop)
+        item.addEventListener('mouseenter', () => {
+            detail.classList.remove('hidden');
+            detail.classList.add('visible');
+        });
+
+        item.addEventListener('mouseleave', () => {
+            detail.classList.remove('visible');
+            detail.classList.add('hidden');
+        });
+
+        // Click Effect (Mobile/Touch)
+        item.addEventListener('click', () => {
+            if (detail.classList.contains('visible')) {
+                detail.classList.remove('visible');
+                detail.classList.add('hidden');
+            } else {
+                // Hide all other details
+                aboutItems.forEach(otherItem => {
+                    const otherDetail = otherItem.querySelector('.detail');
+                    otherDetail.classList.remove('visible');
+                    otherDetail.classList.add('hidden');
+                });
+                detail.classList.remove('hidden');
+                detail.classList.add('visible');
+            }
+        });
+    });
+}
+
+// Add to observer for About section animation
+observer.observe(document.getElementById('about')); // Already covered by your existing code, but ensuring it’s explicit
 // Contact form submission
 document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -276,37 +257,343 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     }, 5000);
 });
 
-// Physics-based header tilt
-const headerContent = document.querySelector('.header-content');
-let targetAngleX = 0;
-let targetAngleY = 0;
-let currentAngleX = 0;
-let currentAngleY = 0;
-const spring = 0.05;  // Spring stiffness
-const damping = 0.85; // Damping factor
+// 1. Interactive Matrix Rain Effect
+function createMatrixRain() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'matrix-canvas';
+    document.body.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Add styling for the canvas
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.zIndex = '-2';
+    canvas.style.opacity = '0.7';
+    canvas.style.display = 'none'; // Hidden by default
+    
+    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+    const matrixArray = matrix.split("");
+    
+    const fontSize = 10;
+    const columns = canvas.width / fontSize;
+    
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+    }
+    
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--section-color');
+        ctx.font = fontSize + "px monospace";
+        
+        for (let i = 0; i < drops.length; i++) {
+            const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            
+            drops[i]++;
+        }
+    }
+    
+    let matrixInterval;
+    
+    // Toggle matrix effect with keyboard shortcut
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'm' || e.key === 'M') {
+            if (canvas.style.display === 'none') {
+                canvas.style.display = 'block';
+                matrixInterval = setInterval(drawMatrix, 50);
+            } else {
+                canvas.style.display = 'none';
+                clearInterval(matrixInterval);
+            }
+        }
+    });
+    
+    
+    // Add a button to toggle the effect
+    const matrixButton = document.createElement('button');
+    matrixButton.textContent = 'Toggle Matrix';
+    matrixButton.className = 'cyber-button matrix-toggle';
+    matrixButton.style.position = 'fixed';
+    matrixButton.style.bottom = '20px';
+    matrixButton.style.right = '20px';
+    matrixButton.style.zIndex = '100';
+    document.body.appendChild(matrixButton);
+    
+    matrixButton.addEventListener('click', function() {
+        if (canvas.style.display === 'none') {
+            canvas.style.display = 'block';
+            matrixInterval = setInterval(drawMatrix, 50);
+        } else {
+            canvas.style.display = 'none';
+            clearInterval(matrixInterval);
+        }
+    });
+    
+    window.addEventListener('resize', function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+}
 
-document.addEventListener('mousemove', (e) => {
-    const rect = header.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+// 2. Interactive Terminal
+function createInteractiveTerminal() {
+    const terminal = document.createElement('div');
+    terminal.className = 'terminal';
+    terminal.innerHTML = `
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="terminal-close"></span>
+                <span class="terminal-minimize"></span>
+                <span class="terminal-maximize"></span>
+            </div>
+            <div class="terminal-title">lewieville-terminal</div>
+        </div>
+        <div class="terminal-content">
+            <div class="terminal-output"></div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">lewieville@portfolio:~$</span>
+                <input type="text" class="terminal-input" autofocus>
+            </div>
+        </div>
+    `;
     
-    targetAngleY = ((e.clientX - centerX) / window.innerWidth) * 20;
-    targetAngleX = ((e.clientY - centerY) / window.innerHeight) * 20;
-});
+    document.body.appendChild(terminal);
+    
+    // Add styling for terminal
+    const style = document.createElement('style');
+    style.textContent = `
+        .terminal {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 500px;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid var(--section-color);
+            border-radius: 5px;
+            font-family: monospace;
+            color: #fff;
+            z-index: 1000;
+            overflow: hidden;
+            display: none;
+            box-shadow: 0 0 20px rgba(var(--section-color-rgb), 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            background: rgba(var(--section-color-rgb), 0.2);
+            padding: 8px;
+            border-bottom: 1px solid rgba(var(--section-color-rgb), 0.5);
+        }
+        
+        .terminal-buttons {
+            display: flex;
+            gap: 5px;
+            margin-right: 10px;
+        }
+        
+        .terminal-close, .terminal-minimize, .terminal-maximize {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .terminal-close {
+            background: #ff5f56;
+        }
+        
+        .terminal-minimize {
+            background: #ffbd2e;
+        }
+        
+        .terminal-maximize {
+            background: #27c93f;
+        }
+        
+        .terminal-title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .terminal-content {
+            height: calc(100% - 30px);
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .terminal-output {
+            flex-grow: 1;
+            margin-bottom: 10px;
+        }
+        
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+        }
+        
+        .terminal-prompt {
+            color: var(--section-color);
+            margin-right: 5px;
+        }
+        
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: monospace;
+            flex-grow: 1;
+            outline: none;
+        }
+    `;
+    
+    document.head.appendChild(style);
+    
+    const terminalButton = document.createElement('button');
+    terminalButton.textContent = 'Toggle Terminal';
+    terminalButton.className = 'cyber-button terminal-toggle';
+    terminalButton.style.position = 'fixed';
+    terminalButton.style.bottom = '60px';
+    terminalButton.style.right = '20px';
+    terminalButton.style.zIndex = '100';
+    document.body.appendChild(terminalButton);
+    
+    terminalButton.addEventListener('click', function() {
+        if (terminal.style.display === 'none' || !terminal.style.display) {
+            terminal.style.display = 'block';
+            terminal.querySelector('.terminal-input').focus();
+        } else {
+            terminal.style.display = 'none';
+        }
+    });
+    
 
-function updateHeaderTilt() {
-    const dx = targetAngleX - currentAngleX;
-    const dy = targetAngleY - currentAngleY;
     
-    currentAngleX += dx * spring;
-    currentAngleY += dy * spring;
+    // Terminal functionality
+    const terminalInput = terminal.querySelector('.terminal-input');
+    const terminalOutput = terminal.querySelector('.terminal-output');
     
-    currentAngleX *= damping;
-    currentAngleY *= damping;
+    // Make terminal draggable
+    let isDragging = false;
+    let currentX, currentY, initialX, initialY;
+    let xOffset = 0, yOffset = 0;
     
-    headerContent.style.transform = `perspective(1000px) rotateX(${currentAngleX}deg) rotateY(${currentAngleY}deg)`;
+    terminal.querySelector('.terminal-header').addEventListener('mousedown', dragStart);
     
-    requestAnimationFrame(updateHeaderTilt);
+    function dragStart(e) {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+        isDragging = true;
+        
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+    }
+    
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+            xOffset = currentX;
+            yOffset = currentY;
+            
+            terminal.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        }
+    }
+    
+    function dragEnd() {
+        isDragging = false;
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('mouseup', dragEnd);
+    }
+    
+    terminalInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const command = terminalInput.value;
+            terminalOutput.innerHTML += `<div><span class="terminal-prompt">lewieville@portfolio:~$</span> ${command}</div>`;
+            
+            // Process command
+            processCommand(command);
+            
+            terminalInput.value = '';
+        }
+    });
+    
+    function processCommand(command) {
+        const cmd = command.trim().toLowerCase();
+        let response = '';
+        
+        switch (cmd) {
+            case 'help':
+                response = `
+                    Available commands:<br>
+                    - help: Show this help message<br>
+                    - clear: Clear terminal<br>
+                    - about: About Lewis Miller<br>
+                    - skills: List programming skills<br>
+                    - projects: List projects<br>
+                    - contact: Contact information<br>
+                    - matrix: Toggle matrix rain effect<br>
+                    - exit: Close terminal
+                `;
+                break;
+            case 'clear':
+                terminalOutput.innerHTML = '';
+                return;
+            case 'about':
+                response = 'Lewis Miller - Full Stack Developer, based in Naples, FL.';
+                break;
+            case 'skills':
+                response = 'Skills: Python (90%), JavaScript (85%), HTML+CSS (95%), React.js (85%), SQL+NoSQL (70%)';
+                break;
+            case 'projects':
+                response = 'Projects: LEWON Styles, CTR Trades';
+                break;
+            case 'contact':
+                response = 'Email: lewis.miller@svu.edu | LinkedIn: lewis-miller-60980a314';
+                break;
+            case 'matrix':
+                document.querySelector('.matrix-toggle').click();
+                response = 'Toggling matrix effect...';
+                break;
+            case 'exit':
+                terminal.style.display = 'none';
+                return;
+            default:
+                response = `Command not found: ${cmd}. Type 'help' for available commands.`;
+        }
+        
+        terminalOutput.innerHTML += `<div class="terminal-response">${response}</div>`;
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    }
+    
+    // Close button functionality
+    terminal.querySelector('.terminal-close').addEventListener('click', function() {
+        terminal.style.display = 'none';
+    });
+    
+    // Add scrolling to output
+    terminalOutput.style.overflowY = 'auto';
 }
 
 // Initialize everything on load
@@ -314,7 +601,9 @@ window.onload = () => {
     typeWriter();
     initParticles();
     animateParticles();
-    updateHeaderTilt();
+    createMatrixRain();
+    createInteractiveTerminal();
+    initAboutInteractivity(); 
 };
 
 // Resize canvas on window resize
@@ -322,133 +611,3 @@ window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 });
-
-// Contact Form Submission with Flashy Feedback
-document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-    const formMessage = document.getElementById('form-message');
-    
-    if (!name || !email || !message) {
-        formMessage.innerText = 'Error: All fields required!';
-        formMessage.style.color = '#ff0000';
-        formMessage.style.animation = 'glitch 1s linear infinite';
-        setTimeout(() => {
-            formMessage.innerText = '';
-            formMessage.style.animation = 'none';
-        }, 3000);
-        return;
-    }
-    
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-        formMessage.innerText = 'Error: Invalid email format!';
-        formMessage.style.color = '#ff0000';
-        formMessage.style.animation = 'glitch 1s linear infinite';
-        setTimeout(() => {
-            formMessage.innerText = '';
-            formMessage.style.animation = 'none';
-        }, 3000);
-        return;
-    }
-    
-    // Flashy success animation
-    formMessage.innerText = `Signal Received, ${name}! Transmitting...`;
-    formMessage.style.color = 'var(--section-color)';
-    formMessage.style.animation = 'neon-flicker 0.5s infinite alternate';
-    
-    const button = this.querySelector('.cyber-button');
-    button.innerText = 'Sent!';
-    button.disabled = true;
-    button.style.background = '#00ff00';
-    
-    // Particle burst effect
-    createParticleBurst();
-    
-    setTimeout(() => {
-        formMessage.innerText = '';
-        formMessage.style.animation = 'none';
-        button.innerText = 'Transmit Signal';
-        button.disabled = false;
-        button.style.background = 'var(--section-color)';
-        this.reset();
-    }, 3000);
-});
-
-// Interactive Contact Particles
-const contactCanvas = document.getElementById('contact-particles');
-const contactCtx = contactCanvas.getContext('2d');
-contactCanvas.width = 150;
-contactCanvas.height = 150;
-
-const contactParticles = [];
-const contactParticleCount = 20;
-
-class ContactParticle {
-    constructor() {
-        this.x = contactCanvas.width / 2;
-        this.y = contactCanvas.height / 2;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = Math.random() * 4 - 2;
-        this.speedY = Math.random() * 4 - 2;
-        this.life = 60; // Frames to live
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.life--;
-        this.size *= 0.98;
-    }
-    draw() {
-        contactCtx.fillStyle = currentParticleColor;
-        contactCtx.beginPath();
-        contactCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        contactCtx.fill();
-    }
-}
-
-function animateContactParticles() {
-    contactCtx.clearRect(0, 0, contactCanvas.width, contactCanvas.height);
-    for (let i = contactParticles.length - 1; i >= 0; i--) {
-        contactParticles[i].update();
-        contactParticles[i].draw();
-        if (contactParticles[i].life <= 0) {
-            contactParticles.splice(i, 1);
-        }
-    }
-    requestAnimationFrame(animateContactParticles);
-}
-
-contactCanvas.addEventListener('mousemove', (e) => {
-    const rect = contactCanvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    
-    for (let i = 0; i < 2; i++) {
-        const particle = new ContactParticle();
-        particle.x = mouseX;
-        particle.y = mouseY;
-        contactParticles.push(particle);
-    }
-});
-
-// Particle burst on form submission
-function createParticleBurst() {
-    const rect = contactCanvas.getBoundingClientRect();
-    const centerX = contactCanvas.width / 2;
-    const centerY = contactCanvas.height / 2;
-    
-    for (let i = 0; i < 30; i++) {
-        const particle = new ContactParticle();
-        particle.x = centerX;
-        particle.y = centerY;
-        particle.speedX = Math.random() * 6 - 3;
-        particle.speedY = Math.random() * 6 - 3;
-        particle.life = 90;
-        contactParticles.push(particle);
-    }
-}
-
-// Start contact particle animation
-animateContactParticles();
