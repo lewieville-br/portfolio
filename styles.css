@@ -228,6 +228,7 @@ header {
 .scroll-indicator {
     position: absolute;
     bottom: 0;
+    left: -50%;
     color: var(--section-color);
     font-size: 1em;
     animation: bounce 2s infinite;
@@ -762,11 +763,18 @@ ul li {
 .intro-text {
     color: var(--section-color);
     font-weight: bold;
-    text-transform: uppercase;    margin-top: 60px;
+    text-transform: uppercase;    
+    margin-top: 60px;
     font-size: 1.2em;
     line-height: 1.8;
     text-align: center;
-    margin-bottom: 30px;
+    margin-top: 20%;
+}
+
+.intro-text a{
+    cursor: none;
+    color: red;
+
 }
 
 .about-list {
@@ -805,6 +813,27 @@ ul li {
     background: rgba(var(--section-color-rgb), 0.3);
 }
 
+
+.point-indicator {
+    position: absolute;
+    bottom: 0;
+    right: -30%;
+    top: 20%;
+    color: var(--section-color);
+    font-size: 1em;
+    animation: bounce 2s infinite;
+}
+
+.point-indicatorr span {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.point-indicator::before {
+    content: '←';
+    font-size: 1.5em;
+}
+
 .detail {
     color: var(--section-color);
     display: block;
@@ -825,7 +854,7 @@ ul li {
 .detail.visible {
     opacity: 1;
     color: var(--section-color);
-    max-height: 50px; /* Adjust based on content */
+    max-height: 80px; /* Adjust based on content */
 }
 
 /* Glitch Effect for Heading */
@@ -995,6 +1024,7 @@ ul li {
     50% { box-shadow: 0 0 15px var(--section-color); }
     100% { box-shadow: 0 0 5px var(--section-color); }
 }
+
 @keyframes scan-line {
     0% { left: -100%; }
     50% { left: 100%; }
