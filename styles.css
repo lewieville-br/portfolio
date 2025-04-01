@@ -1064,4 +1064,6 @@ ul li {
     .flip-card { height: 250px; }
     header h1 { font-size: 1.5em; }
     nav a { font-size: 0.9em; }
+    .point-indicator{display: none;}
+    .cursor-indicator{display: none;}
 }
