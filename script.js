@@ -60,6 +60,12 @@ const observer = new IntersectionObserver(entries => {
                     document.documentElement.style.setProperty('--section-color', '#ff00aa');
                     document.documentElement.style.setProperty('--section-color-rgb', '255, 0, 170');
                     break;
+                case 'about':
+                    currentParticleColor = 'rgb(255, 238, 0)'; // Yelloooooow
+                    trail.style.background = 'radial-gradient(circle,rgb(255, 238, 0) 0%, transparent 70%)';
+                    document.documentElement.style.setProperty('--section-color', '#FFEE00');
+                    document.documentElement.style.setProperty('--section-color-rgb', '255, 238, 0');
+                    break;
                 case 'contact':
                     currentParticleColor = 'rgba(0, 102, 255, 0.8)'; // Blue
                     trail.style.background = 'radial-gradient(circle, #0066ff 0%, transparent 70%)';
@@ -69,7 +75,7 @@ const observer = new IntersectionObserver(entries => {
             }
         }
     });
-}, { threshold: 0.5 }); // Trigger when 50% of section is in view
+}, { threshold: 0.4 }); 
 
 sections.forEach(section => {
     observer.observe(section);
