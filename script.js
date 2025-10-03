@@ -1,4 +1,3 @@
-// Smooth scrolling for navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -8,9 +7,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Animation on scroll with particle, cursor, and section color change
 const sections = document.querySelectorAll('section');
-let currentParticleColor = 'rgba(0, 212, 255, 0.8)'; // Default color (Home: Cyan)
+let currentParticleColor = 'rgba(0, 212, 255, 0.8)';
 const trail = document.getElementById('mouse-trail');
 const header = document.querySelector('header');
 let lastScrollTop = 0;
@@ -28,7 +26,6 @@ const observer = new IntersectionObserver(entries => {
             if (entry.target.id === 'about') {
                 entry.target.querySelector('.about-card').style.animation = 'fadeInUp 1s forwards';
             }
-            // Change particle, cursor, and section color based on section
             switch (entry.target.id) {
                 case 'home':
                     currentParticleColor = 'rgba(0, 212, 255, 0.8)'; // Cyan
@@ -60,6 +57,12 @@ const observer = new IntersectionObserver(entries => {
                     document.documentElement.style.setProperty('--section-color', '#ff00aa');
                     document.documentElement.style.setProperty('--section-color-rgb', '255, 0, 170');
                     break;
+                case 'leadership':
+                    currentParticleColor = 'rgba(255, 100, 0, 0.8)'; // Orange-Red
+                    trail.style.background = 'radial-gradient(circle, #ff6400 0%, transparent 70%)';
+                    document.documentElement.style.setProperty('--section-color', '#ff6400');
+                    document.documentElement.style.setProperty('--section-color-rgb', '255, 100, 0');
+                    break;
                 case 'about':
                     currentParticleColor = 'rgb(255, 238, 0)'; // Yelloooooow
                     trail.style.background = 'radial-gradient(circle,rgb(255, 238, 0) 0%, transparent 70%)';
@@ -85,11 +88,11 @@ sections.forEach(section => {
 window.addEventListener('scroll', () => {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     if (scrollTop > lastScrollTop) {
-        header.classList.add('hidden'); // Hide when scrolling down
+        header.classList.add('hidden'); 
     } else {
-        header.classList.remove('hidden'); // Show when scrolling up
+        header.classList.remove('hidden');
     }
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative scroll
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 });
 
 // Typewriter effect for header
@@ -567,16 +570,16 @@ function createInteractiveTerminal() {
                 terminalOutput.innerHTML = '';
                 return;
             case 'about':
-                response = 'Lewis Miller - Full Stack Developer, based in Naples, FL.';
+                response = 'Lewis Miller - Full Stack Developer & Entrepreneur, based in Virginia. Specializing in web development, algorithmic trading, and mentorship.';
                 break;
             case 'skills':
-                response = 'Skills: Python (90%), JavaScript (85%), HTML+CSS (95%), React.js (85%), SQL+NoSQL (70%)';
+                response = 'Skills: Python (90%), JavaScript (85%), React (80%), Flutter/Dart (75%), HTML+CSS (95%), SQL (85%)';
                 break;
             case 'projects':
-                response = 'Projects: LEWON Styles, CTR Trades';
+                response = 'Projects: Trading Indicators, Crypto Learning Course, Mini LMS, BTC Prediction Script, Trading Community, Portfolio Website';
                 break;
             case 'contact':
-                response = 'Email: lewis.miller@svu.edu | LinkedIn: lewis-miller-60980a314';
+                response = 'Phone: (239) 255-4733 | Email: lewis.miller@svu.edu | Website: lewieville.site | LinkedIn: lewis-miller-60980a314';
                 break;
             case 'matrix':
                 document.querySelector('.matrix-toggle').click();
