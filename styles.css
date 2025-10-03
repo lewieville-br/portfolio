@@ -13,9 +13,9 @@ body {
     overflow-x: hidden;
     position: relative;
     cursor: none;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    overflow-y: scroll; /* Ensures scrolling still works */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll; 
 }
 
 
@@ -342,15 +342,17 @@ ul li {
 /* Flip Cards (existing styles, updated for z-index) */
 .flip-card {
     perspective: 1000px;
-    height: 200px;
-    overflow: hidden;
+    min-height: 200px;
+    height: auto;
+    overflow: visible;
     z-index: 3; /* Ensure cards are clickable above canvas */
 }
 
 .flip-inner {
     position: relative;
     width: 100%;
-    height: 100%;
+    min-height: 200px;
+    height: auto;
     transition: transform 0.6s;
     transform-style: preserve-3d;
 }
@@ -362,7 +364,8 @@ ul li {
 .flip-front, .flip-back {
     position: absolute;
     width: 100%;
-    height: 100%;
+    min-height: 200px;
+    height: auto;
     backface-visibility: hidden;
     padding: 20px;
     background: rgba(51, 51, 51, 0.9);
@@ -379,6 +382,17 @@ ul li {
 .flip-back {
     transform: rotateY(180deg);
     overflow-y: auto;
+    max-height: 400px;
+}
+
+.flip-back ul {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.flip-back li {
+    margin-bottom: 8px;
+    line-height: 1.4;
 }
 
 /* Ensure cards are visible */
@@ -927,7 +941,7 @@ ul li {
         font-size: 1em;
     }
     .about-item:hover {
-        transform: none; /* Disable hover shift on mobile */
+        transform: none; 
     }
 }
 /* Animations (Add to existing animations) */
@@ -1064,7 +1078,14 @@ ul li {
     nav a { display: block; margin: 5px 0; }
     section { padding: 50px 20px; }
     h2 { font-size: 2em; }
-    .flip-card { height: 250px; }
+    .flip-card { 
+        min-height: 250px; 
+        height: auto;
+    }
+    .flip-front, .flip-back {
+        min-height: 250px;
+        height: auto;
+    }
     header h1 { font-size: 1.5em; }
     nav a { font-size: 0.9em; }
     .point-indicator{display: none;}
