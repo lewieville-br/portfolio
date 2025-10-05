@@ -1408,4 +1408,18 @@ function showCodeModal(title, code, language) {
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    
+    if (window.innerWidth <= 768) {
+        document.body.classList.add('mobile');
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach(particle => {
+            particle.style.display = 'none';
+        });
+    } else {
+        document.body.classList.remove('mobile');
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach(particle => {
+            particle.style.display = 'block';
+        });
+    }
 });
